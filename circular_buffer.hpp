@@ -1,3 +1,4 @@
+#include "assert.h"
 #include <string>
 
 using namespace std;
@@ -29,6 +30,7 @@ class CircularBuffer
 
     const T&  get(unsigned lookback = 0) const
     {
+      assert(lookback < size);
       int index = (next_slot - 1 - lookback + size) % size;
       return buffer[index];
     };
