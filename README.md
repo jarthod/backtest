@@ -2,6 +2,11 @@
 
 A simple &amp; fast forex strategy backtesting solution.
 
+```
+make
+./backtest
+```
+
 ## Market data
 
 This program is design to load market data from Dukascopy CSV tick data.
@@ -19,3 +24,11 @@ columns are:
 - ask
 - bid volume
 - ask volume
+
+## Strategies
+
+The strategies are defined as C++ subclasses of the `Strategy` class.
+
+## Dependencies
+
+Nothing special, only `g++`.

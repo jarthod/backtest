@@ -2,14 +2,14 @@ CXX=g++
 CXXFLAGS=-g -std=c++0x -W -Wall -O5 -pedantic
 BIN=backtest
 
-SRC=$(wildcard *.cpp)
+SRC=$(wildcard *.cpp strategies/*.cpp)
 OBJ=$(SRC:%.cpp=%.o)
 
 all: $(OBJ)
 	$(CXX) -o $(BIN) $^
 
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -c $< -o $@ -I.
 
 clean:
 	rm -f *.o
