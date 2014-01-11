@@ -5,6 +5,9 @@ SimplePipsDiffTrigger::SimplePipsDiffTrigger(float trigger = 0.004)
   this->trigger = trigger;
   this->min = 1000000;
   this->max = 0;
+  char buff[100];
+  sprintf(buff, "Simple (t=%.3f)", trigger);
+  this->name = buff;
 }
 
 void  SimplePipsDiffTrigger::tick(const Tick& tick)

@@ -3,6 +3,7 @@
 Strategy::Strategy()
 {
   this->gain = 0;
+  this->name = "Strategy";
 }
 
 void  Strategy::new_tick(const Tick& tick)
@@ -13,7 +14,7 @@ void  Strategy::new_tick(const Tick& tick)
 
 void  Strategy::print_state() const
 {
-  printf("%s - trades: %6d, gain: %+6.1f\n", last_ticks.get(0).time.c_str(), history.size(), gain);
+  printf("%6dt %+6.1fp", history.size(), gain);
 }
 
 void  Strategy::buy(float lots)

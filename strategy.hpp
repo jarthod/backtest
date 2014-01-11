@@ -14,6 +14,7 @@ public:
   // Called when a new tick arrives on the market
   void          new_tick(const Tick& tick);
   void          print_state() const;
+  string        name;
 
 protected:
 

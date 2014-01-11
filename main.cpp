@@ -10,9 +10,17 @@ int main(int argc, char* argv[])
 	char 			buffer[200];
 	Tick			tick;
 	unsigned	line = 0;
+	vector<Strategy*> strategies;
 
 	// strategy
-	SimplePipsDiffTrigger	strategy(0.004);
+  printf("             strategies: ");
+	for(float t = 0.005; t < 0.013; t += 0.001)
+	{
+		Strategy *strategy = new SimplePipsDiffTrigger(t);
+		strategies.push_back(strategy);
+		printf("%16s|", strategy->name.c_str());
+	}
+  printf("\n");
 
 	while(fgets(buffer, 200, file) != NULL)
 	{
@@ -21,12 +29,21 @@ int main(int argc, char* argv[])
 		tick.ask = atof(strtok(NULL, ","));
 		tick.bid_volume = atof(strtok(NULL, ","));
 		tick.ask_volume = atof(strtok(NULL, ","));
-		// if (line > 10000000)
+		// if (line > 20000000)
 			// break;
 		line++;
-		strategy.new_tick(tick);
+		for (unsigned i = 0; i < strategies.size(); i++)
+			strategies[i]->new_tick(tick);
 		if (line % 1000000 == 0)
-			strategy.print_state();
+		{
+			printf("%s: ", tick.time.c_str());
+			for (unsigned i = 0; i < strategies.size(); i++)
+			{
+				strategies[i]->print_state();
+				printf(" |");
+			}
+			printf("\n");
+		}
 	}
 
 	fclose(file);
