@@ -14,7 +14,7 @@ int main(int argc, char* argv[])
 
 	// strategy
   printf("    Strategy parameters ");
-	for(float t = 0.008; t < 0.019; t += 0.001)
+	for(float t = 0.008; t < 0.030; t += 0.002)
 	{
 		Strategy *strategy = new SimplePipsDiffTrigger(t);
 		strategies.push_back(strategy);
