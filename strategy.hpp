@@ -13,8 +13,8 @@ public:
 
   // Called when a new tick arrives on the market
   void          new_tick(const Tick& tick);
-  void          print_state() const;
-  string        name;
+  float         gain() const;
+  const string& name() const;
 
 protected:
 
@@ -28,9 +28,10 @@ protected:
   CircularBuffer<Tick>  last_ticks;
   vector<Position>      long_positions;
   vector<Position>      short_positions;
+  string                _name;
 
 private:
 
   vector<Position>      history;
-  float                 gain;
+  float                 _gain;
 };

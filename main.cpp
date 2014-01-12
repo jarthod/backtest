@@ -13,12 +13,12 @@ int main(int argc, char* argv[])
 	vector<Strategy*> strategies;
 
 	// strategy
-  printf("             strategies: ");
-	for(float t = 0.005; t < 0.013; t += 0.001)
+  printf("    Strategy parameters ");
+	for(float t = 0.008; t < 0.019; t += 0.001)
 	{
 		Strategy *strategy = new SimplePipsDiffTrigger(t);
 		strategies.push_back(strategy);
-		printf("%16s|", strategy->name.c_str());
+		printf(",%9s", strategy->name().c_str());
 	}
   printf("\n");
 
@@ -32,16 +32,15 @@ int main(int argc, char* argv[])
 		// if (line > 20000000)
 			// break;
 		line++;
-		for (unsigned i = 0; i < strategies.size(); i++)
-			strategies[i]->new_tick(tick);
+
+	  for(auto& strategy : strategies)
+			strategy->new_tick(tick);
+
 		if (line % 1000000 == 0)
 		{
-			printf("%s: ", tick.time.c_str());
-			for (unsigned i = 0; i < strategies.size(); i++)
-			{
-				strategies[i]->print_state();
-				printf(" |");
-			}
+			printf("%s", tick.time.c_str());
+			for(auto& strategy : strategies)
+				printf(" ,%+8.1f", strategy->gain());
 			printf("\n");
 		}
 	}

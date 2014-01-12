@@ -2,8 +2,8 @@
 
 Strategy::Strategy()
 {
-  this->gain = 0;
-  this->name = "Strategy";
+  this->_gain = 0;
+  this->_name = "Strategy";
 }
 
 void  Strategy::new_tick(const Tick& tick)
@@ -12,9 +12,14 @@ void  Strategy::new_tick(const Tick& tick)
   this->tick(tick);
 }
 
-void  Strategy::print_state() const
+float  Strategy::gain() const
 {
-  printf("%6dt %+6.1fp", history.size(), gain);
+  return _gain;
+}
+
+const string& Strategy::name() const
+{
+  return _name;
 }
 
 void  Strategy::buy(float lots)
@@ -50,7 +55,7 @@ void Strategy::close_buy()
   pos.close_time = last_ticks.get(0).time;
   history.push_back(pos);
 
-  gain += pos.gain();
+  _gain += pos.gain();
   // printf("close  LONG %f -> %f (%+5.1f pips) gain: %+.1f\n", pos.open_price, pos.close_price, pos.pips(), gain);
 }
 
@@ -63,7 +68,7 @@ void Strategy::close_sell()
   pos.close_time = last_ticks.get(0).time;
   history.push_back(pos);
 
-  gain += pos.gain();
+  _gain += pos.gain();
   // printf("close SHORT %f -> %f (%+5.1f pips) gain: %+.1f\n", pos.open_price, pos.close_price, pos.pips(), gain);
 }
 
