@@ -4,17 +4,17 @@
 #include "tick.hpp"
 #include "strategies/simple_pips_diff_trigger.hpp"
 
-int main(int argc, char* argv[])
+int main(int, char**)
 {
-	FILE* 		file = fopen("data/EURUSD.csv", "r");
+	FILE* 		file = fopen("data/krakenEUR.csv", "r");
 	char 			buffer[200];
 	Tick			tick;
 	unsigned	line = 0;
 	vector<Strategy*> strategies;
 
 	// strategy
-  printf("    Strategy parameters ");
-	for(float t = 0.008; t < 0.030; t += 0.002)
+  printf(" parameters:");
+	for(float t = 1; t <= 9; t += 1)
 	{
 		Strategy *strategy = new SimplePipsDiffTrigger(t);
 		strategies.push_back(strategy);
@@ -25,22 +25,18 @@ int main(int argc, char* argv[])
 	while(fgets(buffer, 200, file) != NULL)
 	{
 		tick.time = strtok(buffer, ",");
-		tick.bid = atof(strtok(NULL, ","));
-		tick.ask = atof(strtok(NULL, ","));
-		tick.bid_volume = atof(strtok(NULL, ","));
-		tick.ask_volume = atof(strtok(NULL, ","));
-		// if (line > 20000000)
-			// break;
+		tick.price = atof(strtok(NULL, ","));
+		tick.volume = atof(strtok(NULL, ","));
 		line++;
 
 	  for(auto& strategy : strategies)
 			strategy->new_tick(tick);
 
-		if (line % 1000000 == 0)
+		if (line % 100000 == 0)
 		{
-			printf("%s", tick.time.c_str());
+			printf(" %s", tick.time.c_str());
 			for(auto& strategy : strategies)
-				printf(" ,%+8.1f", strategy->gain());
+				printf(" ,%+7.0f (%3d)", strategy->gain(), strategy->trades());
 			printf("\n");
 		}
 	}

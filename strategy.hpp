@@ -14,14 +14,15 @@ public:
   // Called when a new tick arrives on the market
   void          new_tick(const Tick& tick);
   float         gain() const;
+  int           trades() const;
   const string& name() const;
 
 protected:
 
   // Methods dedicated to implementations (subclasses)
   virtual void  tick(const Tick& tick) = 0;
-  void          buy(float lots = 0.01);
-  void          sell(float lots = 0.01);
+  void          buy(float lots = 1);
+  void          sell(float lots = 1);
   void          close_buy();
   void          close_sell();
 
@@ -34,4 +35,6 @@ private:
 
   vector<Position>      history;
   float                 _gain;
+  float                 spread;
+  float                 fee;
 };

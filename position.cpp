@@ -1,11 +1,11 @@
 #include "position.hpp"
 
-float Position::pips() const
+float Position::diff() const
 {
-  return (close_price - open_price) * type * 1000;
+  return (close_price - open_price) * type;
 }
 
 float Position::gain() const
 {
-  return (close_price - open_price) * type * lots * 100000;
+  return diff() * lots - (abs(diff()) * lots * fee);
 }

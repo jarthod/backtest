@@ -9,8 +9,8 @@ class Tick
 {
 	public:
 		string		time;
-		float			bid, ask;
-		float			bid_volume, ask_volume;
+		float			price;
+		float			volume;
 };
 
 #endif

@@ -1,5 +1,5 @@
-CXX=g++
-CXXFLAGS=-g -std=c++0x -W -Wall -O5 -pedantic
+CXX=clang++
+CXXFLAGS=-g -std=c++0x -W -Wall -O3 -pedantic
 BIN=backtest
 
 SRC=$(wildcard *.cpp strategies/*.cpp)
@@ -12,7 +12,7 @@ all: $(OBJ)
 	$(CXX) $(CXXFLAGS) -c $< -o $@ -I.
 
 clean:
-	rm -f *.o
+	rm -f *.o strategies/*.o
 	rm -f $(BIN)
 
 re: clean all test

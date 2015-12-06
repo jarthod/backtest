@@ -1,29 +1,35 @@
 # Backtest
 
-A simple &amp; fast forex strategy backtesting solution.
+A simple &amp; fast bitcoin trading strategy backtesting tool.
 
 ```
 make
 ./backtest
+gnuplot -p plot.gnu
 ```
 
 ## Market data
 
-This program is design to load market data from Dukascopy CSV tick data.
-The required CSV file looks like this:
+This program is design to load market data from [bitcoincharts.com historical CSV data](http://api.bitcoincharts.com/v1/csv).
+The CSV file looks like this:
 
 ```
-2007.03.30 00:00:05.934,1.33277,1.33287,24.80,44.70
-2007.03.30 00:00:11.274,1.33281,1.33291,39.20,30.90
-2007.03.30 00:00:28.531,1.33279,1.33289,6.10,43.10
+1389173189,624.010000000000,0.200000000000
+1389173198,624.010000000000,0.097670000000
+1389173198,623.538360000000,0.013579760000
+1389173265,623.538360000000,0.148960240000
+1389173339,623.540660000000,0.200000000000
+1389173528,623.540660000000,0.176300000000
+1389173534,623.540650000000,0.406330000000
+1389173545,623.538360000000,1.800000000000
+1389173545,623.538460000000,0.200000000000
+1389173668,623.538360000000,0.123700000000
 ```
 
 columns are:
 - time
-- bid
-- ask
-- bid volume
-- ask volume
+- price
+- volume
 
 ## Strategies
 
@@ -31,4 +37,4 @@ The strategies are defined as C++ subclasses of the `Strategy` class.
 
 ## Dependencies
 
-Nothing special, only `g++`.
+`make` and `clang` or `g++` (`make CXX=g++` in this case).
