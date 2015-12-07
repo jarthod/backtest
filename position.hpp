@@ -13,7 +13,7 @@ public:
   float     gain() const;
 
   Type      type;
-  string    open_time, close_time;
+  int       open_time, close_time;
   float     open_price, close_price;
   float     lots;
   float     fee;

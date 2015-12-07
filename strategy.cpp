@@ -19,9 +19,9 @@ float  Strategy::gain() const
   return _gain;
 }
 
-int  Strategy::trades() const
+const vector<Position>&  Strategy::positions() const
 {
-  return history.size();
+  return history;
 }
 
 const string& Strategy::name() const

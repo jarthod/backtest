@@ -6,7 +6,8 @@
 
 int main(int, char**)
 {
-	FILE* 		file = fopen("data/krakenEUR.csv", "r");
+	FILE* 		market = fopen("data/krakenEUR.csv", "r");
+	FILE* 		positions = fopen("positions.dat", "w");
 	char 			buffer[200];
 	Tick			tick;
 	unsigned	line = 0;
@@ -14,7 +15,7 @@ int main(int, char**)
 
 	// strategy
   printf(" parameters:");
-	for(float t = 1; t <= 9; t += 1)
+	for(float t = 5; t <= 5; t += 1)
 	{
 		Strategy *strategy = new SimplePipsDiffTrigger(t);
 		strategies.push_back(strategy);
@@ -22,9 +23,9 @@ int main(int, char**)
 	}
   printf("\n");
 
-	while(fgets(buffer, 200, file) != NULL)
+	while(fgets(buffer, 200, market) != NULL)
 	{
-		tick.time = strtok(buffer, ",");
+		tick.time = atoi(strtok(buffer, ","));
 		tick.price = atof(strtok(NULL, ","));
 		tick.volume = atof(strtok(NULL, ","));
 		line++;
@@ -34,12 +35,25 @@ int main(int, char**)
 
 		if (line % 100000 == 0)
 		{
-			printf(" %s", tick.time.c_str());
+			printf(" %d", tick.time);
 			for(auto& strategy : strategies)
-				printf(" ,%+7.0f (%3d)", strategy->gain(), strategy->trades());
+				printf(" ,%+7.0f (%3lu)", strategy->gain(), strategy->positions().size());
 			printf("\n");
 		}
 	}
 
-	fclose(file);
+	for(auto& strategy : strategies) {
+		float gain = 0;
+		for(auto& position : strategy->positions()) {
+			if (position.type == Position::SHORT) {
+				fprintf(positions, "%d, %f, %d, %f,,,, %f\n", position.open_time, position.open_price, position.close_time - position.open_time, position.close_price - position.open_price, gain);
+			} else {
+				fprintf(positions, "%d,,,, %f, %d, %f, %f\n", position.open_time, position.open_price, position.close_time - position.open_time, position.close_price - position.open_price, gain);
+			}
+			gain += position.gain();
+		}
+	}
+
+	fclose(market);
+	fclose(positions);
 }

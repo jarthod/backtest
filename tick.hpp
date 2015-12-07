@@ -8,7 +8,7 @@ using namespace std;
 class Tick
 {
 	public:
-		string		time;
+		int		    time;
 		float			price;
 		float			volume;
 };

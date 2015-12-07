@@ -14,7 +14,7 @@ public:
   // Called when a new tick arrives on the market
   void          new_tick(const Tick& tick);
   float         gain() const;
-  int           trades() const;
+  const vector<Position>& positions() const;
   const string& name() const;
 
 protected:
