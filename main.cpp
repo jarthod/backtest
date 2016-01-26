@@ -6,7 +6,7 @@
 
 int main(int, char**)
 {
-	FILE* 		market = fopen("data/krakenEUR.csv", "r");
+	FILE* 		market = fopen("data/XBTEUR.csv", "r");
 	FILE* 		positions = fopen("positions.dat", "w");
 	char 			buffer[200];
 	Tick			tick;
@@ -15,7 +15,7 @@ int main(int, char**)
 
 	// strategy
   printf(" parameters:");
-	for(float t = 5; t <= 5; t += 1)
+	for(float t = 5; t <= 5; t += 2)
 	{
 		Strategy *strategy = new SimplePipsDiffTrigger(t);
 		strategies.push_back(strategy);
@@ -26,14 +26,16 @@ int main(int, char**)
 	while(fgets(buffer, 200, market) != NULL)
 	{
 		tick.time = atoi(strtok(buffer, ","));
-		tick.price = atof(strtok(NULL, ","));
-		tick.volume = atof(strtok(NULL, ","));
+		tick.bid = atof(strtok(NULL, ","));
+		tick.ask = atof(strtok(NULL, ","));
+		tick.bid_volume = atof(strtok(NULL, ","));
+		tick.ask_volume = atof(strtok(NULL, ","));
 		line++;
 
 	  for(auto& strategy : strategies)
 			strategy->new_tick(tick);
 
-		if (line % 100000 == 0)
+		if (line % 10000 == 0)
 		{
 			printf(" %d", tick.time);
 			for(auto& strategy : strategies)

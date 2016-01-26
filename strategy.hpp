@@ -35,6 +35,5 @@ private:
 
   vector<Position>      history;
   float                 _gain;
-  float                 spread;
   float                 fee;
 };

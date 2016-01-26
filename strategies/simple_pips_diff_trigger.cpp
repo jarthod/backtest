@@ -12,22 +12,22 @@ SimplePipsDiffTrigger::SimplePipsDiffTrigger(float trigger)
 
 void  SimplePipsDiffTrigger::tick(const Tick& tick)
 {
-  if (short_positions.empty() && tick.price > (min + trigger)) // Go short
+  if (short_positions.empty() && tick.bid < (max - trigger)) // Go short
   {
     if (!long_positions.empty())
       close_buy();
     sell();
     max = 0;
   }
-  if (long_positions.empty() && tick.price < (max - trigger)) // Go long
+  if (long_positions.empty() && tick.ask > (min + trigger)) // Go long
   {
     if (!short_positions.empty())
       close_sell();
     buy();
     min = 1000000;
   }
-  if (tick.price < min)
-    min = tick.price;
-  if (tick.price > max)
-    max = tick.price;
+  if (tick.ask < min)
+    min = tick.ask;
+  if (tick.bid > max)
+    max = tick.bid;
 }

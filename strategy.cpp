@@ -3,7 +3,6 @@
 Strategy::Strategy()
 {
   this->_gain = 0;
-  this->spread = 1; // 1€ -> average kraken spread
   this->fee = 0.0026; // 0.26 % -> base taker kraken fee
   this->_name = "Strategy";
 }
@@ -34,7 +33,7 @@ void  Strategy::buy(float lots)
   Position pos;
 
   pos.type = Position::Type::LONG;
-  pos.open_price = last_ticks.get(0).price + spread/2;
+  pos.open_price = last_ticks.get(0).ask;
   pos.open_time = last_ticks.get(0).time;
   pos.lots = lots;
   pos.fee = this->fee;
@@ -47,7 +46,7 @@ void  Strategy::sell(float lots)
   Position pos;
 
   pos.type = Position::Type::SHORT;
-  pos.open_price = last_ticks.get(0).price - spread/2;
+  pos.open_price = last_ticks.get(0).bid;
   pos.open_time = last_ticks.get(0).time;
   pos.lots = lots;
   pos.fee = this->fee;
@@ -60,7 +59,7 @@ void Strategy::close_buy()
   Position pos = long_positions.back();
 
   long_positions.pop_back();
-  pos.close_price = last_ticks.get(0).price - spread/2;
+  pos.close_price = last_ticks.get(0).bid;
   pos.close_time = last_ticks.get(0).time;
   history.push_back(pos);
 
@@ -73,7 +72,7 @@ void Strategy::close_sell()
   Position pos = short_positions.back();
 
   short_positions.pop_back();
-  pos.close_price = last_ticks.get(0).price + spread/2;
+  pos.close_price = last_ticks.get(0).ask;
   pos.close_time = last_ticks.get(0).time;
   history.push_back(pos);
 

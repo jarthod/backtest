@@ -23,3 +23,6 @@ test:
 	@valgrind -q --leak-check=full ./unit_tests
 	@echo -n "\033[0m"
 	@rm -f unit_tests
+
+pull:
+	rsync --progress --checksum -z deploy@alpha.rootbox.fr:~/bitcoin/XBTEUR.csv data
